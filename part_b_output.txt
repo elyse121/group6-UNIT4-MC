@@ -1,0 +1,33 @@
+LoRaWAN SF12 airtime for 12-byte payload (+13 B MAC): 1.483 s
+Cycles per year: 17520; battery 19000 mAh; target 5 years
+
+Path loss at 8 km, n=3.5: 123.1 dB
+Technology           Tx dBm  Sens dBm  MCL dB   PL dB  Margin dB   mAh/yr   Years  5-yr?
+----------------------------------------------------------------------------------------
+NB-IoT                   23      -129     152   123.1       28.9     3433     5.5  yes
+LTE-M (CE Mode B)        23      -125     148   123.1       24.9     5008     3.8  NO
+LoRaWAN SF12             14      -137     151   123.1       27.9      452    42.1  yes
+5G RedCap                23      -118     141   123.1       17.9     4954     3.8  NO
+
+Energy per cycle breakdown (ASSUMED currents/durations; edit ENERGY dict):
+  NB-IoT              0.1959 mAh/cycle  [TX (repetitions) 220 mA x 2.50 s, RX / connected tail 50 mA x 3.00 s; sleep 0.003 mA]
+  LTE-M (CE Mode B)   0.2858 mAh/cycle  [TX (repetitions) 350 mA x 2.00 s, RX / connected tail 80 mA x 4.00 s; sleep 0.005 mA]
+  LoRaWAN SF12        0.0258 mAh/cycle  [TX 14 dBm 44 mA x 1.48 s, RX1+RX2 windows 12 mA x 2.00 s; sleep 0.002 mA]
+  5G RedCap           0.2828 mAh/cycle  [TX 400 mA x 1.50 s, RX / connected tail 100 mA x 4.00 s; sleep 0.01 mA]
+
+Lab Task 6 - sensitivity to path-loss exponent n (margins in dB):
+    n    PL dB              NB-IoT   LTE-M (CE Mode B)        LoRaWAN SF12           5G RedCap
+  2.5    114.1                37.9                33.9                36.9                26.9
+  3.0    118.6                33.4                29.4                32.4                22.4
+  3.5    123.1                28.9                24.9                27.9                17.9
+  4.0    127.6                24.4                20.4                23.4                13.4
+
+Break-even exponent (margin = 0 at 8 km):
+  NB-IoT              n_max = 6.70
+  LTE-M (CE Mode B)   n_max = 6.26
+  LoRaWAN SF12        n_max = 6.59
+  5G RedCap           n_max = 5.48
+
+Recommendation logic (see report): the link budget closes for all three at 8 km,
+but the scenario has NO cellular coverage, so NB-IoT / LTE-M are not available at all,
+and per-device fees favour a self-owned network. LoRaWAN also has the longest battery life.

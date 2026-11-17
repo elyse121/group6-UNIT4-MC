@@ -1,0 +1,138 @@
+MINI PROJECT 4.3 - SAMPLE LOG (broker: amqtt on 127.0.0.1:1883; sensors at 2 s, 3 s, 4 s, QoS 1, all readings retained)
+
+NOTE: the broker delivers each retained message twice on a wildcard subscribe (a quirk of this Python broker; verify against Mosquitto).
+KEY EVENTS: aggregator up 09:17:07 | 3 sensors start 09:17:09 | late joiner 09:17:21 (retained) | new sensor lineB/vibration 09:17:26 (picked up, no code change) | kill -9 lineA-temperature 09:17:36 (LWT offline at 09:17:36)
+
+##### AGGREGATOR LOG (normal operation, alerts, new topic, LWT) #####
+[09:17:07] AGG connected; single subscription plant1/+/+ (QoS 1)
+[09:17:09] AGG NEW TOPIC discovered: plant1/lineA/status
+[09:17:09] AGG plant1/lineA/status = online
+[09:17:09] STATUS plant1/lineA/status -> online
+[09:17:09] AGG NEW TOPIC discovered: plant1/lineA/temperature
+[09:17:09] AGG plant1/lineA/temperature = 94.53
+[09:17:09] ALERT plant1/lineA/temperature = 94.53 exceeds 80.0
+[09:17:09] AGG NEW TOPIC discovered: plant1/lineB/temperature
+[09:17:09] AGG plant1/lineB/temperature = 63.38
+[09:17:09] AGG NEW TOPIC discovered: plant1/lineA/vibration
+[09:17:09] AGG plant1/lineA/vibration = 7.22
+[09:17:09] ALERT plant1/lineA/vibration = 7.22 exceeds 7.0
+[09:17:11] AGG plant1/lineA/temperature = 63.17
+[09:17:12] AGG plant1/lineA/vibration = 3.08
+[09:17:13] AGG plant1/lineA/temperature = 78.64
+[09:17:13] AGG plant1/lineB/temperature = 59.36
+[09:17:15] AGG plant1/lineA/temperature = 81.22
+[09:17:15] ALERT plant1/lineA/temperature = 81.22 exceeds 80.0
+[09:17:15] AGG plant1/lineA/vibration = 8.09
+[09:17:15] ALERT plant1/lineA/vibration = 8.09 exceeds 7.0
+
+[09:17:17] ---- SUMMARY (latest per topic) ----
+   plant1/lineA/status           online   n=1
+   plant1/lineA/temperature       81.22   n=4
+   plant1/lineA/vibration          8.09   n=3
+   plant1/lineB/temperature       59.36   n=2
+
+[09:17:17] AGG plant1/lineA/temperature = 72.97
+[09:17:17] AGG plant1/lineB/temperature = 71.97
+[09:17:18] AGG plant1/lineA/vibration = 8.69
+[09:17:18] ALERT plant1/lineA/vibration = 8.69 exceeds 7.0
+[09:17:19] AGG plant1/lineA/temperature = 68.86
+[09:17:21] AGG plant1/lineA/temperature = 84.53
+[09:17:21] ALERT plant1/lineA/temperature = 84.53 exceeds 80.0
+[09:17:21] AGG plant1/lineB/temperature = 75.28
+[09:17:21] AGG plant1/lineA/vibration = 9.44
+[09:17:21] ALERT plant1/lineA/vibration = 9.44 exceeds 7.0
+[09:17:23] AGG plant1/lineA/temperature = 66.81
+[09:17:24] AGG plant1/lineA/vibration = 8.82
+[09:17:24] ALERT plant1/lineA/vibration = 8.82 exceeds 7.0
+[09:17:25] AGG plant1/lineA/temperature = 66.96
+[09:17:25] AGG plant1/lineB/temperature = 61.2
+[09:17:26] AGG NEW TOPIC discovered: plant1/lineB/vibration
+[09:17:26] AGG plant1/lineB/vibration = 8.23
+[09:17:26] ALERT plant1/lineB/vibration = 8.23 exceeds 7.0
+
+[09:17:27] ---- SUMMARY (latest per topic) ----
+   plant1/lineA/status           online   n=1
+   plant1/lineA/temperature       66.96   n=9
+   plant1/lineA/vibration          8.82   n=6
+   plant1/lineB/temperature        61.2   n=5
+   plant1/lineB/vibration          8.23   n=1
+
+[09:17:27] AGG plant1/lineA/temperature = 68.64
+[09:17:27] AGG plant1/lineA/vibration = 8.95
+[09:17:27] ALERT plant1/lineA/vibration = 8.95 exceeds 7.0
+[09:17:29] AGG plant1/lineA/temperature = 77.86
+[09:17:29] AGG plant1/lineB/temperature = 73.11
+[09:17:29] AGG plant1/lineB/vibration = 9.03
+[09:17:29] ALERT plant1/lineB/vibration = 9.03 exceeds 7.0
+[09:17:30] AGG plant1/lineA/vibration = 6.4
+[09:17:31] AGG plant1/lineA/temperature = 87.68
+[09:17:31] ALERT plant1/lineA/temperature = 87.68 exceeds 80.0
+[09:17:32] AGG plant1/lineB/vibration = 8.27
+[09:17:32] ALERT plant1/lineB/vibration = 8.27 exceeds 7.0
+[09:17:33] AGG plant1/lineA/temperature = 88.16
+[09:17:33] ALERT plant1/lineA/temperature = 88.16 exceeds 80.0
+[09:17:33] AGG plant1/lineB/temperature = 61.54
+[09:17:33] AGG plant1/lineA/vibration = 3.51
+[09:17:35] AGG plant1/lineA/temperature = 73.91
+[09:17:35] AGG plant1/lineB/vibration = 9.27
+[09:17:35] ALERT plant1/lineB/vibration = 9.27 exceeds 7.0
+[09:17:36] AGG plant1/lineA/vibration = 8.79
+[09:17:36] ALERT plant1/lineA/vibration = 8.79 exceeds 7.0
+[09:17:36] AGG plant1/lineA/status = offline
+[09:17:36] STATUS plant1/lineA/status -> offline
+
+[09:17:37] ---- SUMMARY (latest per topic) ----
+   plant1/lineA/status          offline   n=2
+   plant1/lineA/temperature       73.91   n=14
+   plant1/lineA/vibration          8.79   n=10
+   plant1/lineB/temperature       61.54   n=7
+   plant1/lineB/vibration          9.27   n=4
+
+[09:17:37] AGG plant1/lineB/temperature = 85.68
+[09:17:37] ALERT plant1/lineB/temperature = 85.68 exceeds 85.0
+[09:17:38] AGG plant1/lineB/vibration = 3.96
+[09:17:39] AGG plant1/lineA/vibration = 4.84
+[09:17:41] AGG plant1/lineB/temperature = 59.69
+[09:17:41] AGG plant1/lineB/vibration = 1.61
+[09:17:42] AGG plant1/lineA/vibration = 6.54
+[09:17:44] AGG plant1/lineB/vibration = 2.01
+[09:17:45] AGG plant1/lineB/temperature = 88.2
+[09:17:45] ALERT plant1/lineB/temperature = 88.2 exceeds 85.0
+[09:17:45] AGG plant1/lineA/vibration = 3.18
+
+[09:17:47] ---- SUMMARY (latest per topic) ----
+   plant1/lineA/status          offline   n=2
+   plant1/lineA/temperature       73.91   n=14
+   plant1/lineA/vibration          3.18   n=13
+   plant1/lineB/temperature        88.2   n=10
+   plant1/lineB/vibration          2.01   n=7
+
+[09:17:47] AGG plant1/lineB/vibration = 3.68
+
+##### LATE-JOINING SUBSCRIBER (retained-message behaviour) #####
+[09:17:21] LATE-JOINER connected, subscribing plant1/+/+
+[09:17:21] LATE-JOINER plant1/lineA/status = online (RETAINED)
+[09:17:21] LATE-JOINER plant1/lineA/temperature = 68.86 (RETAINED)
+[09:17:21] LATE-JOINER plant1/lineB/temperature = 71.97 (RETAINED)
+[09:17:21] LATE-JOINER plant1/lineA/vibration = 8.69 (RETAINED)
+[09:17:21] LATE-JOINER plant1/lineA/status = online (RETAINED)
+[09:17:21] LATE-JOINER plant1/lineA/temperature = 68.86 (RETAINED)
+[09:17:21] LATE-JOINER plant1/lineB/temperature = 71.97 (RETAINED)
+[09:17:21] LATE-JOINER plant1/lineA/vibration = 8.69 (RETAINED)
+[09:17:21] LATE-JOINER plant1/lineA/temperature = 84.53
+[09:17:21] LATE-JOINER plant1/lineB/temperature = 75.28
+[09:17:21] LATE-JOINER plant1/lineA/vibration = 9.44
+[09:17:23] LATE-JOINER plant1/lineA/temperature = 66.81
+
+##### CSV EXCERPT (plant_log.csv, first 10 rows of 47) #####
+timestamp,topic,value,retained
+2026-11-17T09:17:09,plant1/lineA/status,online,0
+2026-11-17T09:17:09,plant1/lineA/temperature,94.53,0
+2026-11-17T09:17:09,plant1/lineB/temperature,63.38,0
+2026-11-17T09:17:09,plant1/lineA/vibration,7.22,0
+2026-11-17T09:17:11,plant1/lineA/temperature,63.17,0
+2026-11-17T09:17:12,plant1/lineA/vibration,3.08,0
+2026-11-17T09:17:13,plant1/lineA/temperature,78.64,0
+2026-11-17T09:17:13,plant1/lineB/temperature,59.36,0
+2026-11-17T09:17:15,plant1/lineA/temperature,81.22,0
+2026-11-17T09:17:15,plant1/lineA/vibration,8.09,0

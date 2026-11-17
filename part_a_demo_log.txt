@@ -1,0 +1,30 @@
+MINI PROJECT 4.1 PART A - DEMO CONSOLE LOG (broker: amqtt on 127.0.0.1:1883, alert threshold 85 for demo)
+
+### 1. Normal operation: publisher
+[09:13:05] connected, status=online (retained)
+[09:13:05] published 71.6 to factory/line3/temperature (QoS 1, retain=True)
+[09:13:10] published 80.9 to factory/line3/temperature (QoS 1, retain=False)
+[09:13:15] published 87.1 to factory/line3/temperature (QoS 1, retain=False)
+[09:13:20] published 74.0 to factory/line3/temperature (QoS 1, retain=False)
+[09:13:25] published 95.0 to factory/line3/temperature (QoS 1, retain=False)
+
+### 2. Dashboard (fan-out; every reading received)
+[09:13:03] DASHBOARD connected (Success); subscribing
+[09:13:05] DASHBOARD factory/line3/status = online
+[09:13:05] DASHBOARD factory/line3/temperature = 71.6
+[09:13:10] DASHBOARD factory/line3/temperature = 80.9
+[09:13:15] DASHBOARD factory/line3/temperature = 87.1
+[09:13:20] DASHBOARD factory/line3/temperature = 74.0
+
+### 3. Alert subscriber (only readings above threshold)
+[09:13:03] ALERTER connected (Success); subscribing to factory/+/temperature
+[09:13:15] ALERT factory/line3/temperature = 87.1 exceeds 85.0
+[09:13:25] ALERT factory/line3/temperature = 95.0 exceeds 85.0
+
+### 4. Dashboard restarted mid-run: retained messages arrive immediately (09:13:23), then LWT 'offline' after kill -9 at 09:13:29
+[09:13:23] DASHBOARD connected (Success); subscribing
+[09:13:23] DASHBOARD factory/line3/temperature = 71.6 (RETAINED)
+[09:13:23] DASHBOARD factory/line3/temperature = 71.6 (RETAINED)
+[09:13:23] DASHBOARD factory/line3/status = online (RETAINED)
+[09:13:25] DASHBOARD factory/line3/temperature = 95.0
+[09:13:29] DASHBOARD factory/line3/status = offline
